@@ -51,13 +51,18 @@ LARK_APP_SECRET=your_lark_app_secret_here
 
 ### 4. Set up MySQL
 
-Make sure MySQL is running, then run the setup script:
+Make sure MySQL (XAMPP) is running, then import the database:
+
+- Open **phpmyadmin** at `http://localhost/phpmyadmin`
+- Click **Import** tab
+- Choose `lark_attendance.sql` from this project
+- Click **Go**
+
+Alternatively, run the setup script:
 
 ```bash
 python setup_mysql.py
 ```
-
-This creates the `lark_attendance` database and required tables.
 
 ### 5. Run the app
 
