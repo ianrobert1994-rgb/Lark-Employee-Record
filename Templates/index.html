@@ -685,7 +685,7 @@
                                 <option value="Legal Division">Legal Division</option>
                             </select>
                         </div>
-                        <button type="submit" class="btn btn-primary" style="margin-bottom: 1px;">
+                        <button type="submit" class="btn" style="background: #10b981; color: #fff; margin-bottom: 1px;">
                             <i class="fas fa-plus"></i> Add
                         </button>
                     </div>
@@ -722,7 +722,7 @@
                         </div>
                     </div>
                     <div style="margin-top: 16px;">
-                        <button type="submit" class="btn btn-primary" id="searchBtn" onclick="showSearchModal()">
+                        <button type="submit" class="btn" style="background: #6366f1; color: #fff;" id="searchBtn" onclick="showSearchModal()">
                             <i class="fas fa-search"></i> Search
                         </button>
                         <a href="/" class="btn btn-secondary" style="margin-left: 8px;">
@@ -760,7 +760,7 @@
                     <h3>Attendance Records ({{ total_records }} records)</h3>
                     {% if records %}
                     <div style="display: flex; gap: 8px;">
-                        <a href="/export-csv?date_from={{ filters.date_from }}&date_to={{ filters.date_to }}&full_name={{ filters.full_name }}&department={{ filters.department }}&employee_type={{ filters.employee_type }}" class="btn btn-primary" style="text-decoration: none;">
+                        <a href="/export-csv?date_from={{ filters.date_from }}&date_to={{ filters.date_to }}&full_name={{ filters.full_name }}&department={{ filters.department }}&employee_type={{ filters.employee_type }}" class="btn" style="background: #0ea5e9; color: #fff; text-decoration: none;">
                             <i class="fas fa-download"></i> Export Excel
                         </a>
                     </div>
