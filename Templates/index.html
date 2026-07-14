@@ -760,9 +760,6 @@
                     <h3>Attendance Records ({{ total_records }} records)</h3>
                     {% if records %}
                     <div style="display: flex; gap: 8px;">
-                        <button type="button" class="btn btn-sync" style="text-decoration: none; padding: 10px 16px;" onclick="syncToLarkBase()">
-                            <i class="fas fa-cloud-upload-alt"></i> Sync to Lark Base
-                        </button>
                         <a href="/export-csv?date_from={{ filters.date_from }}&date_to={{ filters.date_to }}&full_name={{ filters.full_name }}&department={{ filters.department }}&employee_type={{ filters.employee_type }}" class="btn btn-primary" style="text-decoration: none;">
                             <i class="fas fa-download"></i> Export Excel
                         </a>
@@ -890,20 +887,6 @@
         </div>
     </div>
 
-    <div class="modal-overlay sync-modal" id="syncModal">
-        <div class="modal">
-            <div class="modal-header">
-                <h3>Sync to Lark Base</h3>
-                <button class="modal-close" onclick="closeSyncModal()"><i class="fas fa-times"></i></button>
-            </div>
-            <div class="modal-body" id="syncModalBody">
-                <div class="sync-spinner" id="syncSpinner"></div>
-                <div class="sync-status-text" id="syncStatusText">Syncing records to Lark Base...</div>
-                <div class="sync-detail-text" id="syncDetailText">Please wait, this may take a moment.</div>
-            </div>
-        </div>
-    </div>
-
     <div class="modal-overlay" id="photoModal">
         <div class="modal" style="max-width: 500px; text-align: center;">
             <div class="modal-header">
@@ -969,54 +952,6 @@
 
         document.getElementById('photoModal').addEventListener('click', function(e) {
             if (e.target === this) closePhotoModal();
-        });
-
-        function syncToLarkBase() {
-            var modal = document.getElementById('syncModal');
-            var body = document.getElementById('syncModalBody');
-            var spinner = document.getElementById('syncSpinner');
-            var statusText = document.getElementById('syncStatusText');
-            var detailText = document.getElementById('syncDetailText');
-
-            spinner.innerHTML = '<div class="sync-spinner"></div>';
-            spinner.className = '';
-            statusText.textContent = 'Syncing records to Lark Base...';
-            detailText.textContent = 'Please wait, this may take a moment.';
-            modal.classList.add('active');
-
-            var dateFrom = '{{ filters.date_from }}';
-            var dateTo = '{{ filters.date_to }}';
-
-            fetch('/sync-to-lark', {
-                method: 'POST',
-                headers: {'Content-Type': 'application/x-www-form-urlencoded'},
-                body: 'date_from=' + encodeURIComponent(dateFrom) + '&date_to=' + encodeURIComponent(dateTo)
-            })
-            .then(function(r) { return r.json(); })
-            .then(function(data) {
-                if (data.ok) {
-                    spinner.innerHTML = '<div class="sync-result-icon success"><i class="fas fa-check"></i></div>';
-                    statusText.textContent = 'Sync Successful!';
-                    detailText.textContent = data.message;
-                } else {
-                    spinner.innerHTML = '<div class="sync-result-icon error"><i class="fas fa-times"></i></div>';
-                    statusText.textContent = 'Sync Failed';
-                    detailText.textContent = data.message;
-                }
-            })
-            .catch(function(err) {
-                spinner.innerHTML = '<div class="sync-result-icon error"><i class="fas fa-exclamation-triangle"></i></div>';
-                statusText.textContent = 'Sync Failed';
-                detailText.textContent = 'Network error. Please try again.';
-            });
-        }
-
-        function closeSyncModal() {
-            document.getElementById('syncModal').classList.remove('active');
-        }
-
-        document.getElementById('syncModal').addEventListener('click', function(e) {
-            if (e.target === this) closeSyncModal();
         });
 
         function showSearchModal() {

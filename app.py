@@ -709,20 +709,6 @@ def proxy_photo():
 def check_face_stub():
     return jsonify({"ok": True})
 
-@app.route("/sync-to-lark", methods=["POST"])
-def sync_to_lark():
-    try:
-        records = query_records(date_from=None, date_to=None)
-
-        if not records:
-            return jsonify({"ok": False, "message": "No records to sync."}), 400
-
-        total, added = _push_to_lark_base(records, append_only=True)
-        return jsonify({"ok": True, "message": f"{total} records checked, {added} new records added to Lark Base.", "total": total, "added": added})
-    except Exception as e:
-        return jsonify({"ok": False, "message": f"Sync failed: {str(e)}"}), 500
-
-
 AUTO_SYNC_INTERVAL = 1800  # seconds (30 minutes)
 
 
