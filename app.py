@@ -3,7 +3,7 @@ from flask import Flask, render_template, request, jsonify, redirect, url_for, f
 from lark_client import LarkClient
 from database import (
     init_db, insert_employees, clear_employees, query_employees, get_employee_stats,
-    insert_records, clear_records, query_records, get_stats, get_db,
+    insert_records, clear_records, clear_records_by_date, query_records, get_stats, get_db,
 )
 import threading
 
@@ -260,7 +260,7 @@ def index():
                 ))
 
             if auto_records:
-                clear_records()
+                clear_records_by_date(date_from, date_to)
                 insert_records(auto_records)
 
                 conn = get_db()
@@ -274,11 +274,8 @@ def index():
                 conn.commit()
                 conn.close()
 
-                db_records = query_records(
-                    date_from=date_from or None,
-                    date_to=date_to or None,
-                )
-                _push_to_lark_base(db_records)
+                all_db_records = query_records(date_from=None, date_to=None)
+                _push_to_lark_base(all_db_records, append_only=True)
 
             records = query_records(
                 date_from=date_from or None,

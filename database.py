@@ -135,6 +135,14 @@ def clear_records():
     conn.close()
 
 
+def clear_records_by_date(date_from, date_to):
+    conn = get_db()
+    cur = conn.cursor()
+    cur.execute("DELETE FROM attendance_records WHERE work_date >= %s AND work_date <= %s", (date_from, date_to))
+    conn.commit()
+    conn.close()
+
+
 def query_records(date_from=None, date_to=None, full_name=None, department=None, employee_type=None):
     conn = get_db()
     cur = conn.cursor()
